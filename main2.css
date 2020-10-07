@@ -3,16 +3,54 @@ body{
     font-family: 'Open Sans', sans-serif;
     display: flex;
     flex-direction: row;
-    padding-top: 100px;
+    flex-wrap: wrap;
+    margin: 0;
+}
+.navbar{
+    width: 100%;
+    display: flex;
+    height: 9vh;
+    position: sticky;
+    background-color: rgb(50,50,50);
+    top: 0;
+    margin-bottom: 5vh;
 }
 .sidebar{
     width: 250px;
+    height: 86vh;
+    position: sticky;
+    top: 14vh;
+    overflow-y: scroll;
+    margin: 0 20px;
+    margin-right: 60px;
 }
 .content{
     display: flex;
-    flex-direction: column;
     width: 500px;
+    flex-direction: column;
 }
+.rightbar{
+    display: flex;
+    flex-direction: column;
+    position: sticky;
+    top: 14vh;
+    width: 400px;
+    margin-left: 100px;
+    height: 86vh;
+    background-color: coral;
+}
+
+
+
+
+
+
+
+
+
+
+
+
 .station{
     width: 100%;
     display: flex;
@@ -74,12 +112,6 @@ body{
     color: rgb(170, 170, 170);
     margin-left: 6px;
 }
-.sidebar{
-    margin: 0 20px;
-    margin-right: 60px;
-    overflow-y: scroll;
-    height: 80vh;
-}
 * {
   scrollbar-width: 15px;
   scrollbar-color: rgb(60,60,60) rgb(30,30,30);
@@ -97,14 +129,6 @@ body{
 }
 .sidebar > .country{
     margin: 15px 0;
-}
-
-
-.rightbar{
-    width: 400px;
-    display: flex;
-    flex-direction: column;
-    margin-left: 100px;
 }
 .station-info{
     padding: 20px 15px;;
