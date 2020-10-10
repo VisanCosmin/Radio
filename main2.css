@@ -37,7 +37,6 @@ body{
     width: 400px;
     margin-left: 100px;
     height: 86vh;
-    background-color: coral;
 }
 
 
@@ -202,3 +201,38 @@ body{
 .radio-station-player > audio{
     width: 100%;
 }
+.website-info{
+    font-size: 11px;
+    color: gray;
+}
+.navbar > h3{
+    font-size: 25px;
+    margin: 10px 20px;
+    color: white;
+    font-weight: 900;
+}
+.stations-filter{
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    margin-bottom: 20px;
+    cursor: pointer;
+}
+.stations-filter > div{
+    width: 50%;
+    color: gray;
+    font-weight: 900;
+    font-size: 13px;
+    text-align: center;
+    background-color: rgb(32,32,32);
+    padding: 10px 0;
+}
+.stations-filter > div:hover{
+    background-color: rgb(42,42,42);
+
+}
+.stations-filter > .selected{
+    background-color: transparent;
+}
+
+
