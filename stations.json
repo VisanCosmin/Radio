@@ -1,0 +1,9 @@
+{
+    "stations":[
+        {
+            "name": "Station name" ,
+            "stream": "link to stream" ,
+            "thumbnail": "link to thumbnail"
+        }
+    ]
+}
