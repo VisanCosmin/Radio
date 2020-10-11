@@ -17,37 +17,48 @@ main =
     , view = view
     }
 
-
-type Model = Init | Loaded { stations : (List Station) , currentStation : Maybe Station }
+type alias AppState = { stations : (List Station) , currentStation : Maybe Station }
+type Model = Init | Loaded AppState
 
 init : () -> (Model, Cmd Msg)
 init _ =
   ( Init
   , Http.get
     { url = "https://visancosmin.github.io/Radio/stations.json"
-    , expect = Http.expectJson GotResult listDecoder
+    , expect = Http.expectJson RequestStationsResult listDecoder
     }
   )
 
 
 type Msg = RequestStations
-         | GotResult (Result Http.Error (List Station))
+         | RequestStationsResult (Result Http.Error (List Station))
 
 
 update : Msg -> Model -> (Model, Cmd Msg)
 update msg model =
   case msg of 
     RequestStations -> (Init , Cmd.none)
-    (GotResult res) -> 
-      case res of (Err _) -> (Loaded [] Nothing , Cmd.none)
-                  (Ok s) -> (Loaded s Nothing , Cmd.none)
+    (RequestStationsResult res) -> 
+      case res of (Err _) -> (Loaded {stations = [] , currentStation = Nothing} , Cmd.none)
+                  (Ok s) -> (Loaded {stations = s , currentStation = Nothing} , Cmd.none)
 
 view : Model -> Html Msg
 view model =
   case model of 
     Init -> div [] [ text "Hello World" ]
-    (Loaded stations current) -> div [] (List.map stationToDiv stations)
+    (Loaded data) -> viewApp data
 
+
+viewApp : AppState -> Html Msg
+viewApp state = 
+  div [] 
+      [ div [ class "navbar" ] [ h3 [] [ text "RADIO WORLD" ] ] 
+      , node "link" [ href "https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600;700;800&display=swap" 
+             , rel "stylesheet" ] []
+      , node "link" [ href "https://visancosmin.github.io/Radio/main2.css" 
+             , rel "stylesheet" ] [] 
+
+      ]
 
 
 type alias Country = { name : String , thumbnail : String }
@@ -58,21 +69,6 @@ type alias Station =
   , country : Country
   , categories : List String
   }
-stationToDiv : Station -> Html Msg 
-stationToDiv station = 
-  div []
-      [ text station.name
-      , br [] []
-      , text station.stream
-      , br [] []
-      , text station.thumbnail
-      , br [] []
-      , img [ src station.thumbnail, width 100] []
-      , img [ src station.country.thumbnail, width 100] []
-      , audio [ src station.stream, controls True] []
-      , br [] []
-      ] 
-
 
 stationDecoder : Decoder Station 
 stationDecoder = D.map5 Station
