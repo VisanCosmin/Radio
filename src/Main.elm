@@ -5,113 +5,72 @@ import Html exposing (..)
 import Html.Attributes exposing (..)
 import Html.Events exposing (..)
 import Http
-import Json.Decode exposing (Decoder, field, string)
-
-
-
--- MAIN
+import Json.Decode exposing (Decoder)
+import Json.Decode as D
 
 
 main =
   Browser.element
     { init = init
     , update = update
-    , subscriptions = subscriptions
+    , subscriptions = \_ -> Sub.none
     , view = view
     }
 
 
-
--- MODEL
-
-
-type Model
-  = Failure
-  | Loading
-  | Success String
-
+type Model = Init | Loaded (List Station)
 
 init : () -> (Model, Cmd Msg)
 init _ =
-  (Loading, getRandomCatGif)
+  ( Init
+  , Http.get
+    { url = "https://visancosmin.github.io/Radio/stations.json"
+    , expect = Http.expectJson GotResult listDecoder
+    }
+  )
 
 
-
--- UPDATE
-
-
-type Msg
-  = MorePlease
-  | GotGif (Result Http.Error String)
+type Msg = RequestStations
+         | GotResult (Result Http.Error (List Station))
 
 
 update : Msg -> Model -> (Model, Cmd Msg)
 update msg model =
-  case msg of
-    MorePlease ->
-      (Loading, getRandomCatGif)
-
-    GotGif result ->
-      case result of
-        Ok url ->
-          (Success url, Cmd.none)
-
-        Err _ ->
-          (Failure, Cmd.none)
-
-
-
--- SUBSCRIPTIONS
-
-
-subscriptions : Model -> Sub Msg
-subscriptions model =
-  Sub.none
-
-
-
--- VIEW
-
+  case msg of 
+    RequestStations -> (Init , Cmd.none)
+    (GotResult res) -> 
+      case res of (Err _) -> (Loaded [] , Cmd.none)
+                  (Ok s) -> (Loaded s , Cmd.none)
 
 view : Model -> Html Msg
 view model =
+  case model of 
+    Init -> div [] [ text "Hello World" ]
+    (Loaded res) -> div [] (List.map stationToDiv res)
+
+
+
+
+type alias Station = { name : String , stream : String , thumbnail : String }
+stationToDiv : Station -> Html Msg 
+stationToDiv station = 
   div []
-    [ h2 [] [ text "Random Cats" ]
-    , viewGif model
-    ]
+      [ text station.name
+      , br [] []
+      , text station.stream
+      , br [] []
+      , text station.thumbnail
+      , br [] []
+      , br [] []
+      ] 
 
 
-viewGif : Model -> Html Msg
-viewGif model =
-  case model of
-    Failure ->
-      div []
-        [ text "I could not load a random cat for some reason. "
-        , button [ onClick MorePlease ] [ text "Try Again!" ]
-        ]
+stationDecoder : Decoder Station 
+stationDecoder = D.map3 Station
+  (D.field "name" D.string)
+  (D.field "stream" D.string)
+  (D.field "thumbnail" D.string)
 
-    Loading ->
-      text "Loading..."
-
-    Success url ->
-      div []
-        [ button [ onClick MorePlease, style "display" "block" ] [ text "More Please!" ]
-        , img [ src url ] []
-        ]
-
-
-
--- HTTP
-
-
-getRandomCatGif : Cmd Msg
-getRandomCatGif =
-  Http.get
-    { url = "https://api.giphy.com/v1/gifs/random?api_key=dc6zaTOxFJmzC&tag=cat"
-    , expect = Http.expectJson GotGif gifDecoder
-    }
-
-
-gifDecoder : Decoder String
-gifDecoder =
-  field "data" (field "image_url" string)
+listDecoder : Decoder (List Station)
+listDecoder = 
+  D.field "stations" (D.list stationDecoder)
