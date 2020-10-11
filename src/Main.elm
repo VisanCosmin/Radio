@@ -50,8 +50,14 @@ view model =
 
 
 
-
-type alias Station = { name : String , stream : String , thumbnail : String }
+type alias Country = { name : String , thumbnail : String }
+type alias Station = 
+  { name : String 
+  , stream : String 
+  , thumbnail : String 
+  , country : Country
+  , categories : List String
+  }
 stationToDiv : Station -> Html Msg 
 stationToDiv station = 
   div []
@@ -61,16 +67,26 @@ stationToDiv station =
       , br [] []
       , text station.thumbnail
       , br [] []
+      , img [ src station.thumbnail, width 100] []
+      , img [ src station.country.thumbnail, width 100] []
+      , audio [ src station.stream, controls True] []
       , br [] []
       ] 
 
 
 stationDecoder : Decoder Station 
-stationDecoder = D.map3 Station
+stationDecoder = D.map5 Station
   (D.field "name" D.string)
   (D.field "stream" D.string)
   (D.field "thumbnail" D.string)
+  (D.field "country" countryDecoder)
+  (D.field "categories" (D.list D.string))
 
 listDecoder : Decoder (List Station)
 listDecoder = 
   D.field "stations" (D.list stationDecoder)
+
+countryDecoder : Decoder Country
+countryDecoder = D.map2 Country
+  (D.field "name" D.string)
+  (D.field "thumbnail" D.string)
