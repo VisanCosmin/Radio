@@ -18,7 +18,7 @@ main =
     }
 
 
-type Model = Init | Loaded (List Station)
+type Model = Init | Loaded { stations : (List Station) , currentStation : Maybe Station }
 
 init : () -> (Model, Cmd Msg)
 init _ =
@@ -39,14 +39,14 @@ update msg model =
   case msg of 
     RequestStations -> (Init , Cmd.none)
     (GotResult res) -> 
-      case res of (Err _) -> (Loaded [] , Cmd.none)
-                  (Ok s) -> (Loaded s , Cmd.none)
+      case res of (Err _) -> (Loaded [] Nothing , Cmd.none)
+                  (Ok s) -> (Loaded s Nothing , Cmd.none)
 
 view : Model -> Html Msg
 view model =
   case model of 
     Init -> div [] [ text "Hello World" ]
-    (Loaded res) -> div [] (List.map stationToDiv res)
+    (Loaded stations current) -> div [] (List.map stationToDiv stations)
 
 
 
