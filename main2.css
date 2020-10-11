@@ -1,9 +1,12 @@
-body{
+body > div{
     background-color: rgb(24, 24, 24);
     font-family: 'Open Sans', sans-serif;
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
+    margin: 0;
+}
+body{
     margin: 0;
 }
 .navbar{
