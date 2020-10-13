@@ -32,6 +32,7 @@ init _ =
 
 type Msg = RequestStations
          | RequestStationsResult (Result Http.Error (List Station))
+         | ChangeStation Station
 
 
 update : Msg -> Model -> (Model, Cmd Msg)
@@ -41,6 +42,10 @@ update msg model =
     (RequestStationsResult res) -> 
       case res of (Err _) -> (Loaded {stations = [] , currentStation = Nothing} , Cmd.none)
                   (Ok s) -> (Loaded {stations = s , currentStation = Nothing} , Cmd.none)
+    (ChangeStation station) ->
+      case model of 
+        (Loaded state) -> (Loaded {state | currentStation = Just station} , Cmd.none)
+        _ -> (model , Cmd.none)
 
 view : Model -> Html Msg
 view model =
@@ -52,13 +57,59 @@ view model =
 viewApp : AppState -> Html Msg
 viewApp state = 
   div [] 
-      [ div [ class "navbar" ] [ h3 [] [ text "RADIO WORLD" ] ] 
+      [ div [ class "navbar" ] [ h3 [] [ text "RADIO WORLD" ] ]
+      , div [ class "sidebar" ]
+            [ div [ class "country" ]
+                  [ img [ src "https://upload.wikimedia.org/wikipedia/commons/thumb/7/73/Flag_of_Romania.svg/158px-Flag_of_Romania.svg.png" ]
+                        []
+                  , span [] [ text "Romania" ]
+                  ]
+            , div [ class "country" ]
+                  [ img [ src "https://upload.wikimedia.org/wikipedia/en/thumb/a/a4/Flag_of_the_United_States.svg/220px-Flag_of_the_United_States.svg.png" ]
+                        []
+                  , span [] [ text "USA" ]
+                  ]
+            ]
+      , div [ class "content" ]
+            ([ div [ class "stations-filter" ]
+                  [ div [ class "selected" ] [ text "ALL"]
+                  , div [] [ text "FAVORITES (0)" ]
+                  ]
+            ] ++ (List.map viewStation state.stations) ++ [ viewPlayer state.currentStation ])
+
       , node "link" [ href "https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600;700;800&display=swap" 
              , rel "stylesheet" ] []
       , node "link" [ href "https://visancosmin.github.io/Radio/main2.css" 
              , rel "stylesheet" ] [] 
 
       ]
+
+viewStation : Station -> Html Msg 
+viewStation station = 
+  div [ class "station" ]
+      [ img [ src station.thumbnail ] []
+      , div [ class "details" ]
+            [ h3 [ onClick (ChangeStation station)] [ text station.name ]
+            , div [ class "tags" ] (List.map (\t -> span [] [text t]) station.categories)
+            ]
+      , div [ class "country" ]
+            [ img [ src station.country.thumbnail ]
+                  []
+            , span [] [ text station.country.name ]
+            ]
+      ]
+
+viewPlayer : Maybe Station -> Html Msg
+viewPlayer maybeStation = 
+  case maybeStation of 
+    Nothing -> 
+      div [ class "radio-station-player" ] 
+          [ audio [ src "" , controls True ] []
+          ]
+    (Just station) -> 
+      div [ class "radio-station-player" ]
+          [ audio [ src station.stream , controls True ] []
+          ]
 
 
 type alias Country = { name : String , thumbnail : String }

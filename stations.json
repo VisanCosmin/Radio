@@ -9,6 +9,27 @@
                 "thumbnail": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/73/Flag_of_Romania.svg/1200px-Flag_of_Romania.svg.png"
             } ,
             "categories": ["Music" , "News"]
+        } ,
+        {
+            "name": "Digi FM" ,
+            "stream": "https://edge76.rcs-rds.ro/digifm/digifm.mp3" ,
+            "thumbnail": "https://www.digifm.ro/static/theme-repo/bin/images/logo-digifm.png" ,
+            "country": {
+                "name": "Romania" ,
+                "thumbnail": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/73/Flag_of_Romania.svg/1200px-Flag_of_Romania.svg.png"
+            } ,
+            "categories": ["Music" , "News"]
+        } ,
+        {
+            "name": "Kiss Fm" ,
+            "stream": "https://live.kissfm.ro/kissfm.aacp" ,
+            "thumbnail": "https://www.kissfm.ro/app/assets/images/logo.png" ,
+            "country": {
+                "name": "Romania" ,
+                "thumbnail": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/73/Flag_of_Romania.svg/1200px-Flag_of_Romania.svg.png"
+            } ,
+            "categories": ["Music" , "Pop" , "Contemporary Hi"]
         }
+
     ]
 }
