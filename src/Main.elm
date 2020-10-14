@@ -76,7 +76,7 @@ viewApp state =
                   , div [] [ text "FAVORITES (0)" ]
                   ]
             ] ++ (List.map viewStation state.stations) ++ [ viewPlayer state.currentStation ])
-
+      , viewSidebar state.currentStation
       , node "link" [ href "https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600;700;800&display=swap" 
              , rel "stylesheet" ] []
       , node "link" [ href "https://visancosmin.github.io/Radio/main2.css" 
@@ -104,12 +104,42 @@ viewPlayer maybeStation =
   case maybeStation of 
     Nothing -> 
       div [ class "radio-station-player" ] 
-          [ audio [ src "" , controls True ] []
+          [ audio [ src "" , controls True , autoplay True] []
           ]
     (Just station) -> 
       div [ class "radio-station-player" ]
-          [ audio [ src station.stream , controls True ] []
+          [ audio [ src station.stream , controls True  , autoplay True] []
           ]
+
+viewSidebar : Maybe Station -> Html Msg 
+viewSidebar maybeStation = 
+  case maybeStation of
+    Nothing -> 
+      div [ class "rightbar" ]
+          [ p [ class "website-info" ] [ text "Radio World 2020"] 
+          ]
+    (Just station) -> 
+      div [ class "rightbar" ]
+          [ div [ class "station-info" ]
+                [ div [ class "station-details" ]
+                      [ img [ src station.thumbnail ] []
+                      , div [ class "station-name" ]
+                            [ h3 [] [ text station.name ]  
+                            , div [ class "country" ]
+                                  [ img [ src station.country.thumbnail ] []
+                                  , span [] [ text station.country.name ]
+                                  ]
+                            ]
+                      ]
+                , a [ href station.website ] [ text station.website ]
+                , p [] [ text station.description ]
+                , div [ class "actions" ]
+                      [ div [ class "favorite" ] [ text "❤ FAVORITE" ]
+                      ]
+                ]
+          , p [ class "website-info" ] [ text "Radio World 2020"] 
+          ]
+
 
 
 type alias Country = { name : String , thumbnail : String }
@@ -119,6 +149,8 @@ type alias Station =
   , thumbnail : String 
   , country : Country
   , categories : List String
+  , website : String 
+  , description : String
   }
 
 stationDecoder : Decoder Station 
@@ -128,6 +160,8 @@ stationDecoder = D.map5 Station
   (D.field "thumbnail" D.string)
   (D.field "country" countryDecoder)
   (D.field "categories" (D.list D.string))
+  (D.field "website" D.string)
+  (D.field "description" D.string)
 
 listDecoder : Decoder (List Station)
 listDecoder = 

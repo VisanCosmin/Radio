@@ -8,7 +8,9 @@
                 "name": "Romania" ,
                 "thumbnail": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/73/Flag_of_Romania.svg/1200px-Flag_of_Romania.svg.png"
             } ,
-            "categories": ["Music" , "News"]
+            "categories": ["Music" , "News"] ,
+            "website": "https://www.europafm.ro/" ,
+            "description": "Europa FM este un post de radio românesc, înființat de Ilie Năstase, lansat pe data de 26 mai 2000 și care a făcut parte din rețeaua Lagardère până în 2018, când a fost preluat de Czech Media Invest. Este primul post de radio privat care are acoperire națională în FM."
         } ,
         {
             "name": "Digi FM" ,
@@ -18,7 +20,9 @@
                 "name": "Romania" ,
                 "thumbnail": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/73/Flag_of_Romania.svg/1200px-Flag_of_Romania.svg.png"
             } ,
-            "categories": ["Music" , "News"]
+            "categories": ["Music" , "News"] ,
+            "website": "https://www.digifm.ro/" ,
+            "description": "Digi FM este un post de radio din România ce se axează pe formatul de Soft AC, știri, business și emisiuni-concurs. A fost lansat la 11 noiembrie 2015 de RCS & RDS pe fostele frecvențe ale postului de știri Info Pro iar în ultimii cinci ani pe frecvențele PRO FM."
         } ,
         {
             "name": "Kiss Fm" ,
@@ -28,7 +32,33 @@
                 "name": "Romania" ,
                 "thumbnail": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/73/Flag_of_Romania.svg/1200px-Flag_of_Romania.svg.png"
             } ,
-            "categories": ["Music" , "Pop" , "Contemporary Hi"]
+            "categories": ["Music" , "Pop" , "Contemporary Hit"] ,
+            "website": "https://www.kissfm.ro/" ,
+            "description": "Kiss FM este un post de radio românesc cu acoperire națională, care emite din București în peste 57 de stații locale. Radioul a început să emită pe 5 noiembrie 2003 după ce rețeaua Radio Contact Belgia a renunțat la stațiile locale din România. Formatul muzical este Contemporary Hit Radio."
+        } ,
+        {
+            "name": "FOX News Radio" ,
+            "stream": "https://streaming-ent.shoutcast.com/foxnews" ,
+            "thumbnail": "https://radio.foxnews.com/wp-content/uploads/2018/11/FOX-News-Radio-Logo-300x300.jpg" ,
+            "country": {
+                "name": "USA" ,
+                "thumbnail": "https://upload.wikimedia.org/wikipedia/en/thumb/a/a4/Flag_of_the_United_States.svg/220px-Flag_of_the_United_States.svg.png"
+            } ,
+            "categories": ["News"] ,
+            "website": "https://radio.foxnews.com" ,
+            "description": "Fox News Radio is an American radio network owned by Fox News. It is syndicated to over 500 AM and FM radio stations across the United States. It also supplies programming for two channels on Sirius XM Satellite Radio."
+        } ,
+        {
+            "name": "MSNBC Radio" ,
+            "stream": "http://wrau.streamguys1.com/msnbc-free" ,
+            "thumbnail": "https://res.cloudinary.com/onetuner/image/twitter_name/msnbc" ,
+            "country": {
+                "name": "USA" ,
+                "thumbnail": "https://upload.wikimedia.org/wikipedia/en/thumb/a/a4/Flag_of_the_United_States.svg/220px-Flag_of_the_United_States.svg.png"
+            } ,
+            "categories": ["News"] ,
+            "website": "https://www.msnbc.com" ,
+            "description": "MSNBC is a simulcast radio station that broadcasts the audio and occasionally exclusive shows from the MSNBC cable channel programming. The station is part of NBC Universal Worldwide News Group and it offers news-based content. Its line-up includes various news reports throughout the day, sports analysis, and talk shows on current affairs, finance, and politics. "
         }
 
     ]
