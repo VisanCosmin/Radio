@@ -50,7 +50,7 @@ update msg model =
 view : Model -> Html Msg
 view model =
   case model of 
-    Init -> div [] [ text "Hello World" ]
+    Init -> div [] [ text "Radio World Loading" ]
     (Loaded data) -> viewApp data
 
 
@@ -154,7 +154,7 @@ type alias Station =
   }
 
 stationDecoder : Decoder Station 
-stationDecoder = D.map5 Station
+stationDecoder = D.map7 Station
   (D.field "name" D.string)
   (D.field "stream" D.string)
   (D.field "thumbnail" D.string)
